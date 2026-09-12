@@ -33,6 +33,90 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+
+    /* Őrült, animált lenyíló menü sáv */
+    .nav-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 100;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropbtn {
+      background: linear-gradient(135deg, var(--card), var(--surface));
+      color: var(--gold);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      padding: 10px 28px;
+      border: 2px solid var(--gold);
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 0 15px rgba(245, 197, 24, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .dropbtn:hover {
+      transform: scale(1.08) rotate(-1deg);
+      box-shadow: 0 0 25px rgba(245, 197, 24, 0.5);
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .dropbtn .arrow {
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .dropdown.active .dropbtn .arrow {
+      transform: rotate(225deg) scale(1.2);
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 130%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.7) translateY(-20px);
+      background: var(--card);
+      min-width: 200px;
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1;
+    }
+    .dropdown.active .dropdown-content {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) scale(1) translateY(0);
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover {
+      background: var(--gold);
+      color: var(--bg);
+      padding-left: 26px;
+      letter-spacing: 0.15em;
+    }
+
     .site-header {
       background: linear-gradient(180deg, #09162b 0%, var(--bg) 100%);
       border-bottom: 1px solid var(--border);
@@ -211,6 +295,22 @@
     .sign-form input:focus {
       border-color: var(--gold);
     }
+    /* Hozzájárulási gomb / checkbox stílus */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+    }
+    .checkbox-container input {
+      accent-color: var(--gold);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
     .btn {
       background: var(--gold);
       color: #050c18;
@@ -243,7 +343,6 @@
     }
     .counter-text span { color: var(--gold); }
 
- 
     #custom-toast {
       position: fixed;
       bottom: 30px;
@@ -386,8 +485,19 @@
 </head>
 <body>
 
-
   <div id="custom-toast"></div>
+
+  <!-- Középre igazított animált lenyíló menü sáv -->
+  <nav class="nav-bar">
+    <div class="dropdown" id="nav-dropdown">
+      <button class="dropbtn" id="dropbtn">Menü <span class="arrow">✦</span></button>
+      <div class="dropdown-content">
+        <a href="index.html">Index</a>
+        <a href="halloffame.html">Hall of Fame</a>
+        <a href="insta.html">Instagram</a>
+      </div>
+    </div>
+  </nav>
 
   <header class="site-header">
     <div class="eyebrow">Tiltakozás</div>
@@ -436,6 +546,13 @@
       <div class="counter-text">Eddig <span id="signature-count">0</span> ember gyújtott gyertyát a Creacreditért.</div>
       <form class="sign-form" id="sign-form">
         <input type="text" id="signer-name" placeholder="Neved vagy beceneved..." required />
+        
+        <!-- Hozzájárulás gomb / jelölőnégyzet -->
+        <label class="checkbox-container">
+          <input type="checkbox" id="consent-checkbox" />
+          Hozzájárulok, hogy a nevem megjelenjen a Hall of Fame oldalon.
+        </label>
+
         <button type="submit" id="submit-btn" class="btn">Gyújts egy gyertyát és írd alá!</button>
       </form>
       <button class="btn btn-share" id="share-btn">Oldal megosztása</button>
@@ -490,11 +607,22 @@
     const candlesContainer = document.getElementById('candles-container');
     const form = document.getElementById('sign-form');
     const nameInput = document.getElementById('signer-name');
+    const consentCheckbox = document.getElementById('consent-checkbox');
     const submitBtn = document.getElementById('submit-btn');
     const shareBtn = document.getElementById('share-btn');
     const toast = document.getElementById('custom-toast');
 
- 
+    // Lenyíló menü eseménykezelője
+    const navDropdown = document.getElementById('nav-dropdown');
+    const dropBtn = document.getElementById('dropbtn');
+    dropBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navDropdown.classList.toggle('active');
+    });
+    window.addEventListener('click', () => {
+      navDropdown.classList.remove('active');
+    });
+
     function showToast(message) {
       toast.textContent = message;
       toast.classList.add('show');
@@ -507,6 +635,7 @@
     if (hasVoted) {
       nameInput.value = hasVoted;
       nameInput.disabled = true;
+      consentCheckbox.disabled = true;
       submitBtn.disabled = true;
       submitBtn.textContent = "Már gyújtottál gyertyát erről a gépről!";
     }
@@ -537,17 +666,20 @@
       if (localStorage.getItem('creacredit_voted')) return;
 
       const name = nameInput.value.trim();
+      const isConsent = consentCheckbox.checked;
       if (!name) return;
 
       try {
         await addDoc(collection(db, "signatures"), {
           name: name,
+          consent: isConsent,
           timestamp: serverTimestamp()
         });
         
         localStorage.setItem('creacredit_voted', name);
         
         nameInput.disabled = true;
+        consentCheckbox.disabled = true;
         submitBtn.disabled = true;
         submitBtn.textContent = "Már gyújtottál gyertyát erről a gépről!";
         
