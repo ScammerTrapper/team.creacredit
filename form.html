@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreaCredit Újraélesztési Kérdőív & Tiltakozás</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg:       #050c18;
+      --surface:  #0a1628;
+      --card:     #0f1e36;
+      --border:   rgba(255,255,255,0.06);
+      --gold:     #f5c518;
+      --gold-dim: rgba(245,197,24,0.08);
+      --text:     #dce8f5;
+      --muted:    #3d5270;
+      --green:    #10d97c;
+      --red:      #f74040;
+      --blue:     #38bdf8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    /* Őrült, animált lenyíló menü sáv */
+    .nav-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 100;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropbtn {
+      background: linear-gradient(135deg, var(--card), var(--surface));
+      color: var(--gold);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      padding: 10px 28px;
+      border: 2px solid var(--gold);
+      border-radius: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 0 15px rgba(245, 197, 24, 0.2);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .dropbtn:hover {
+      transform: scale(1.08) rotate(-1deg);
+      box-shadow: 0 0 25px rgba(245, 197, 24, 0.5);
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .dropbtn .arrow {
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: inline-block;
+    }
+    .dropdown.active .dropbtn .arrow {
+      transform: rotate(180deg) scale(1.2);
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 130%;
+      left: 50%;
+      transform: translateX(-50%) scale(0.7) translateY(-20px);
+      background: var(--card);
+      min-width: 220px;
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 10;
+    }
+    .dropdown.active .dropdown-content {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) scale(1) translateY(0);
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 14px 20px;
+      text-decoration: none;
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover {
+      background: var(--gold);
+      color: var(--bg);
+      padding-left: 26px;
+      letter-spacing: 0.15em;
+    }
+
+    .site-header {
+      background: linear-gradient(180deg, #09162b 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 38px 24px 34px;
+      text-align: center;
+      position: relative;
+    }
+    .site-header .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .site-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .site-header h1 span { color: var(--red); }
+    .site-header .subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 42px 16px 100px;
+      display: flex;      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .protest-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: fadeInDown 0.8s ease-out;
+    }
+    .protest-card h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--red);
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .protest-card p {
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    .highlight-credit {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      display: inline-block;
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+
+    .comparison-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 18px 20px;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    .comparison-table th {
+      background: var(--surface);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .comparison-table th.good-th { color: var(--green); }
+    .comparison-table th.bad-th { color: var(--red); }
+    .comparison-table tr { border-bottom: 1px solid var(--border); }
+    .comparison-table tr:last-child { border-bottom: none; }
+    .comparison-table td.good-td { color: var(--green); font-weight: 600; }
+    .comparison-table td.bad-td { color: var(--red); font-weight: 600; }
+
+    .message-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      text-align: left;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      line-height: 1.6;
+    }
+    .message-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+      letter-spacing: 0.05em;
+    }
+    .message-card p {
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+    .principle-box {
+      background: var(--surface);
+      border-left: 4px solid var(--red);
+      padding: 15px;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 15px 0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .team-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--blue);
+      text-align: center;      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .action-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .action-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 15px;
+      letter-spacing: 0.05em;
+    }
+    
+    /* Styled Extended Form */
+    .sign-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 550px;
+      margin: 0 auto 20px;
+      text-align: left;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+    }
+    .sign-form input[type="text"], 
+    .sign-form textarea, 
+    .sign-form select {
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.98rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .sign-form textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+    .sign-form input:focus, 
+    .sign-form textarea:focus, 
+    .sign-form select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px rgba(245, 197, 24, 0.2);
+    }
+    
+    /* Role Radio Toggle Styling */
+    .role-selector {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .role-option {
+      flex: 1;
+      position: relative;
+    }
+    .role-option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+    .role-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-option input:checked + .role-box {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    /* Checkbox Container */
+    .checkbox-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      user-select: none;
+      margin-top: 6px;
+      background: var(--surface);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .checkbox-container input {
+      accent-color: var(--gold);
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      background: var(--gold);
+      color: #050c18;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      opacity: 0.6;
+      transform: none;
+    }
+    .btn-share {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 15px;
+      width: auto;
+    }
+    .counter-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .counter-text span { color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; }
+
+    #custom-toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      color: var(--text);
+      padding: 14px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      font-weight: 600;
+      font-size: 0.95rem;
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    #custom-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .candles-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+      max-width: 320px;
+    }
+    .candle {
+      width: 12px;
+      height: 30px;
+      background: #ecf0f1;
+      border-radius: 3px;
+      position: relative;
+      animation: fadeInDown 0.5s ease-out;
+    }
+    .candle::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 3px;
+      width: 6px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 8px var(--gold);
+      animation: pulseGlow 1s infinite alternate;
+    }
+
+    .tombstone-wrapper {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: floatTomb 3s ease-in-out infinite;
+    }
+    .tombstone {
+      background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+      width: 280px;
+      height: 380px;
+      border-top-left-radius: 140px;
+      border-top-right-radius: 140px;
+      border: 4px solid #34495e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 15px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .cross {
+      font-size: 35px;
+      color: #95a5a6;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .rip {
+      font-family: "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: #ecf0f1;
+      letter-spacing: 3px;
+      margin-bottom: 5px;
+    }
+    .tombstone-text {
+      font-size: 14px;
+      color: #bdc3c7;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .tombstone-dates {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .tombstone-fate {
+      font-size: 12px;
+      color: var(--red);
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      border-top: 1px dashed rgba(255,255,255,0.2);
+      padding-top: 6px;
+    }
+    .base {
+      background: linear-gradient(90deg, #1f2c38, #34495e, #1f2c38);
+      width: 340px;
+      height: 45px;
+      border-top: 5px solid #2c3e50;
+      border-radius: 4px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Feed & Admin Panel Cards */
+    .responses-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      width: 100%;
+    }
+    .responses-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .responses-header h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .feed-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feed-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      position: relative;
+    }
+    .feed-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .feed-author {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-diak { background: rgba(56, 189, 248, 0.15); color: var(--blue); border: 1px solid var(--blue); }
+    .badge-tanar { background: rgba(245, 197, 24, 0.15); color: var(--gold); border: 1px solid var(--gold); }
+    .badge-admin { background: rgba(247, 64, 64, 0.15); color: var(--red); border: 1px solid var(--red); }
+    .badge-public { background: rgba(16, 217, 124, 0.15); color: var(--green); border: 1px solid var(--green); }
+
+    .feed-section-title {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 10px;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    .feed-text {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.4;
+      background: rgba(0,0,0,0.2);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    /* Modal / Admin password */
+    .admin-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(245,197,24,0.2); }
+      50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(245,197,24,0.6); }
+    }
+    @keyframes floatTomb {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav Bar Navigáció -->
+  <nav class="nav-bar">
+    <div class="dropdown" id="navDropdown">
+      <button class="dropbtn" id="dropdownBtn">
+        <span><i class="fa-solid fa-compass"></i> Menü & Navigáció</span>
+        <span class="arrow"><i class="fa-solid fa-chevron-down"></i></span>
+      </button>
+      <div class="dropdown-content">
+        <a href="#protest"><i class="fa-solid fa-skull"></i> Emlékhely</a>
+        <a href="#survey"><i class="fa-solid fa-pen-to-square"></i> Kérdőív Kiöltése</a>
+        <a href="#feed"><i class="fa-solid fa-comments"></i> Vélemények</a>
+        <a href="#admin" id="adminNavToggle"><i class="fa-solid fa-user-shield"></i> Admin Panel</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Fejléc -->
+  <header class="site-header">
+    <div class="eyebrow"><i class="fa-solid fa-triangle-exclamation"></i> KÖZÖSSÉGI MANIFESZTUM & KÉR DŐÍV</div>
+    <h1>Mentsük meg a <span>CreaCredit</span>-et!</h1>
+    <div class="subtitle">Miért bukott meg a CreaCodex rendszere, és miért kell visszahozni a tiszta CreaCredit modellt?</div>
+  </header>
+
+  <main class="main">
+
+    <!-- Tiltakozási Kártya & Sírkő Animáció -->
+    <section class="protest-card" id="protest">
+      <h2>R.I.P. CreaCredit</h2>
+      <p>A megszokott, fair és motiváló kreditrendszerünk áldozatul esett az átgondolatlan CreaCodex frissítéseknek.</p>
+      <div class="highlight-credit">EGYÜTT ÚJRAÉLESZTHETJÜK!</div>
+
+      <div class="tombstone-wrapper">
+        <div class="tombstone">
+          <div class="cross">†</div>
+          <div class="rip">R.I.P.</div>
+          <div class="tombstone-text">CreaCredit Rendszer</div>
+          <div class="tombstone-dates">2022 - 2024</div>
+          <div class="tombstone-fate">Megölte a CreaCodex Bürokrácia</div>
+        </div>
+        <div class="base"></div>
+        <div class="candles-container" id="candlesContainer">
+          <!-- Gyertyák dinamikusan jelennek meg a beküldések alapján -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Összehasonlító Táblázat -->
+    <section class="comparison-container">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th class="good-th"><i class="fa-solid fa-circle-check"></i> Régi CreaCredit</th>
+            <th class="bad-th"><i class="fa-solid fa-circle-xmark"></i> Új CreaCodex</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="good-td">Átlátható, azonnali jutalmazási logika</td>
+            <td class="bad-td">Bonyolult, átláthatatlan bürokratikus szabályok</td>
+          </tr>
+          <tr>
+            <td class="good-td">Diákok és Tanárok számára egyaránt motiváló</td>
+            <td class="bad-td">Frusztráló felület, demotiváló visszajelzések</td>
+          </tr>
+          <tr>
+            <td class="good-td">Kiszámítható pontszerzés és értékállóság</td>
+            <td class="bad-td">Folyamatosan változó, kiszámíthatatlan elvárások</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Üzenet Kártya -->
+    <section class="message-card">
+      <h3>Miért fontos a hangod?</h3>
+      <p>Ez a kérdőív azért született, hogy pontos, megkérdőjelezhetetlen adatokat és érveket gyűjtsünk össze mind a <strong>Diákoktól</strong>, mind a <strong>Tanároktól</strong>. A célunk az, hogy megmutassuk a vezetőségnek: a CreaCodex jelenlegi formájában nem működik megfelelően, és a CreaCredit visszahozatala elengedhetetlen.</p>
+      
+      <div class="principle-box">
+        "A fejlődés nem a jó rendszerek lerombolása, hanem a hibák kijavítása. A CreaCredit közösségépítő erejét vissza kell állítanunk!"
+      </div>
+
+      <div class="team-tag">#BringBackCreaCredit</div>
+    </section>
+
+    <!-- Kérdőív Kártya -->
+    <section class="action-card" id="survey">
+      <h3>CreaCredit Újraélesztési Kérdőív</h3>
+      <div class="counter-text">Összesen támogatás / beküldés: <span id="signatureCount">...</span></div>
+
+      <!-- SIKERES BEKÜLDÉS UTÁNI NÉZET -->
+      <div id="successState" style="display: none; margin: 25px 0;">
+        <div style="font-size: 3rem; color: var(--green); margin-bottom: 10px;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold);">Köszönjük a válaszaidat!</h4>
+        <p style="color: var(--text); margin-bottom: 20px;">A véleményed regisztrálva lett az adatbázisban. Segítettél egy lépéssel közelebb hozni a CreaCredit visszatérését!</p>
+        <button class="btn" id="btnNewSubmission"><i class="fa-solid fa-rotate-left"></i> Új válasz beküldése</button>
+      </div>
+
+      <!-- KÉRDŐÍV ŰRLAP -->
+      <form class="sign-form" id="surveyForm">
+        
+        <!-- Név -->
+        <div class="form-group">
+          <label for="userName"><i class="fa-solid fa-user"></i> Neved / Be Beceneved *</label>
+          <input type="text" id="userName" placeholder="Pl. Kovács Péter" required>
+        </div>
+
+        <!-- Szerepkör -->
+        <div class="form-group">
+          <label><i class="fa-solid fa-graduation-cap"></i> Szerepkör / Típus *</label>
+          <div class="role-selector">
+            <label class="role-option">
+              <input type="radio" name="userRole" value="DIÁK" checked>
+              <div class="role-box"><i class="fa-solid fa-user-graduate"></i> DIÁK</div>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="userRole" value="TANÁR">
+              <div class="role-box"><i class="fa-solid fa-chalkboard-user"></i> TANÁR</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Mi rossz a CreaCodexben? -->
+        <div class="form-group">
+          <label for="creaCodexIssues"><i class="fa-solid fa-bug"></i> Mi rossz a CreaCodexben? *</label>
+          <textarea id="creaCodexIssues" placeholder="Fejtsd ki részletesen, mi nem működik jól, mi idegesítő vagy használhatatlan..." required></textarea>
+        </div>
+
+        <!-- Miért szeretnéd visszahozni a CreaCreditet? -->
+        <div class="form-group">
+          <label for="whyBringBack"><i class="fa-solid fa-heart"></i> Miért szeretnéd visszahozni a CreaCreditet? *</label>
+          <textarea id="whyBringBack" placeholder="Mi hiányzik belőle? Milyen pozitív tapasztalataid voltak vele?" required></textarea>
+        </div>
+
+        <!-- Érvek / Indoklás -->
+        <div class="form-group">
+          <label for="arguments"><i class="fa-solid fa-scale-balanced"></i> Részletes Érvek / Indoklás *</label>
+          <textarea id="arguments" placeholder="Milyen konkrét érveid vannak a vezetőség számára?" required></textarea>
+        </div>
+
+        <!-- Nyilvános Hozzájárulás -->
+        <label class="checkbox-container">
+          <input type="checkbox" id="publicConsent" checked>
+          <span>Hozzájárulok, hogy a véleményem és érveim <strong>publikusan is megjelenjenek</strong> az oldalon. <br><small style="color: var(--muted);">(Ha nincs bejelölve, a válaszod bizalmas marad és csak az Admin panelen látható.)</small></span>
+        </label>
+
+        <!-- Beküldés Gomb -->
+        <button type="submit" class="btn" id="submitBtn">
+          <i class="fa-solid fa-paper-plane"></i> Kérdőív Beküldése
+        </button>
+      </form>
+
+      <button class="btn btn-share" id="shareBtn">
+        <i class="fa-solid fa-share-nodes"></i> Kérdőív Megosztása
+      </button>
+    </section>
+
+    <!-- Publikus Vélemények / Admin Nézet -->
+    <section class="responses-card" id="feed">
+      <div class="responses-header">
+        <h3 id="feedTitle"><i class="fa-solid fa-comments"></i> Publikus Vélemények</h3>
+        
+        <div class="admin-bar">
+          <button class="btn btn-share" id="adminToggleBtn" style="margin: 0; padding: 6px 14px; font-size: 1rem;">
+            <i class="fa-solid fa-lock"></i> Admin Mód
+          </button>
+        </div>
+      </div>
+
+      <div id="adminBadgeNotice" style="display: none; background: rgba(247, 64, 64, 0.1); border: 1px solid var(--red); padding: 10px; border-radius: 8px; margin-bottom: 15px; color: var(--red); font-size: 0.9rem;">
+        <i class="fa-solid fa-shield-halved"></i> <strong>ADMIN MÓD AKTÍV:</strong> Az összes beküldést látod (a privátokat is).
+      </div>
+
+      <div class="feed-grid" id="feedContainer">
+        <!-- Beküldött adatok dinamikusan ide töltődnek -->
+        <p style="text-align: center; color: var(--muted); padding: 20px;">Adatok betöltése...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast értesítés -->
+  <div id="custom-toast">
+    <i class="fa-solid fa-circle-check" style="color: var(--green); font-size: 1.2rem;"></i>
+    <span id="toastMessage">Sikeresen mentve!</span>
+  </div>
+
+  <!-- Firebase SDK Modular Importok -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      onSnapshot, 
+      query, 
+      orderBy, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Megadott Firebase Konfiguráció
+    const firebaseConfig = {
+      apiKey: "AIzaSyCl7wsIHzdHcmnJSMZZCieacZROxlJnxvI",
+      authDomain: "creacredit-szuper1212856.firebaseapp.com",
+      projectId: "creacredit-szuper1212856",
+      storageBucket: "creacredit-szuper1212856.firebasestorage.app",
+      messagingSenderId: "480853534754",
+      appId: "1:480853534754:web:c118bec98985668a59427b",
+      measurementId: "G-05N82W8N9N"
+    };
+
+    // Firebase Inicializálása
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const responsesRef = collection(db, "responses");
+
+    // Állapotváltozók
+    let isAdmin = false;
+    let allResponses = [];
+
+    // DOM elemek
+    const surveyForm = document.getElementById("surveyForm");
+    const successState = document.getElementById("successState");
+    const btnNewSubmission = document.getElementById("btnNewSubmission");
+    const signatureCountEl = document.getElementById("signatureCount");
+    const candlesContainer = document.getElementById("candlesContainer");
+    const feedContainer = document.getElementById("feedContainer");
+    const feedTitle = document.getElementById("feedTitle");
+    const adminToggleBtn = document.getElementById("adminToggleBtn");
+    const adminBadgeNotice = document.getElementById("adminBadgeNotice");
+    const submitBtn = document.getElementById("submitBtn");
+
+    // Dropdown menü animáció
+    const dropdown = document.getElementById("navDropdown");
+    const dropdownBtn = document.getElementById("dropdownBtn");
+
+    dropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle("active");
+    });
+
+    document.addEventListener("click", () => {
+      dropdown.classList.remove("active");
+    });
+
+    // Toast megjelenítés
+    function showToast(message) {
+      const toast = document.getElementById("custom-toast");
+      const toastMessage = document.getElementById("toastMessage");
+      toastMessage.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3500);
+    }
+
+    // Beküldés kezelése
+    surveyForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("userName").value.trim();
+      const role = document.querySelector('input[name="userRole"]:checked').value;
+      const creaCodexIssues = document.getElementById("creaCodexIssues").value.trim();
+      const whyBringBack = document.getElementById("whyBringBack").value.trim();
+      const argumentsText = document.getElementById("arguments").value.trim();
+      const isPublic = document.getElementById("publicConsent").checked;
+
+      if (!name || !creaCodexIssues || !whyBringBack || !argumentsText) {
+        showToast("Kérjük tölts ki minden kötelező mezőt!");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mentés...';
+
+      try {
+        await addDoc(responsesRef, {
+          name: name,
+          role: role,
+          creaCodexIssues: creaCodexIssues,
+          whyBringBack: whyBringBack,
+          arguments: argumentsText,
+          isPublic: isPublic,
+          createdAt: serverTimestamp()
+        });
+
+        showToast("Válaszaidat sikeresen rögzítettük! Köszönjük!");
+        surveyForm.reset();
+        surveyForm.style.display = "none";
+        successState.style.display = "block";
+
+      } catch (error) {
+        console.error("Hiba a mentés során: ", error);
+        showToast("Hiba történt a mentés során. Próbáld újra!");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kérdőív Beküldése';
+      }
+    });
+
+    // Új válasz beküldése gomb
+    btnNewSubmission.addEventListener("click", () => {
+      successState.style.display = "none";
+      surveyForm.style.display = "flex";
+    });
+
+    // Firestore adatok valós idejű figyelése (onSnapshot)
+    const q = query(responsesRef, orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      allResponses = [];
+      snapshot.forEach((doc) => {
+        allResponses.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Számláló frissítése
+      signatureCountEl.textContent = allResponses.length;
+
+      // Gyertyák frissítése (Max 20 szimbolikus gyertya)
+      candlesContainer.innerHTML = "";
+      const candleCount = Math.min(allResponses.length, 25);
+      for (let i = 0; i < candleCount; i++) {
+        const candle = document.createElement("div");
+        candle.className = "candle";
+        candlesContainer.appendChild(candle);
+      }
+
+      // Feed megjelenítése
+      renderFeed();
+    }, (error) => {
+      console.error("Firestore hiba: ", error);
+      feedContainer.innerHTML = `<p style="color: var(--red); text-align: center;">Hiba történt az adatok betöltésekor.</p>`;
+    });
+
+    // Feed Kirajzolása (Publikus vs Admin Mód)
+    function renderFeed() {
+      feedContainer.innerHTML = "";
+
+      const visibleResponses = allResponses.filter(r => isAdmin || r.isPublic);
+
+      if (visibleResponses.length === 0) {
+        feedContainer.innerHTML = `<p style="text-align: center; color: var(--muted); padding: 20px;">Még nem érkezett ${isAdmin ? '' : 'publikus '}vélemény.</p>`;
+        return;
+      }
+
+      visibleResponses.forEach((item) => {
+        const itemEl = document.createElement("div");
+        itemEl.className = "feed-item";
+
+        const roleBadge = item.role === "TANÁR" 
+          ? `<span class="badge badge-tanar"><i class="fa-solid fa-chalkboard-user"></i> TANÁR</span>` 
+          : `<span class="badge badge-diak"><i class="fa-solid fa-user-graduate"></i> DIÁK</span>`;
+
+        const publicBadge = isAdmin 
+          ? (item.isPublic 
+              ? `<span class="badge badge-public"><i class="fa-solid fa-eye"></i> Publikus</span>` 
+              : `<span class="badge badge-admin"><i class="fa-solid fa-eye-slash"></i> Csak Admin</span>`)
+          : '';
+
+        itemEl.innerHTML = `
+          <div class="feed-item-header">
+            <div class="feed-author">
+              <i class="fa-solid fa-user-circle" style="color: var(--gold);"></i> ${escapeHtml(item.name || 'Névtelen')}
+              ${roleBadge}
+            </div>
+            <div>${publicBadge}</div>
+          </div>
+
+          <div class="feed-section-title"><i class="fa-solid fa-bug"></i> Mi rossz a CreaCodexben?</div>
+          <div class="feed-text">${escapeHtml(item.creaCodexIssues || '-')}</div>
+
+          <div class="feed-section-title"><i class="fa-solid fa-heart"></i> Miért szeretné visszahozni a CreaCreditet?</div>
+          <div class="feed-text">${escapeHtml(item.whyBringBack || '-')}</div>
+
+          <div class="feed-section-title"><i class="fa-solid fa-scale-balanced"></i> Érvek & Indoklás:</div>
+          <div class="feed-text">${escapeHtml(item.arguments || '-')}</div>
+        `;
+
+        feedContainer.appendChild(itemEl);
+      });
+    }
+
+    // HTML Kódolás a XSS védelem érdekében
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Admin Panel Kapcsoló
+    function toggleAdminMode() {
+      if (!isAdmin) {
+        const password = prompt("Kérjük add meg az Admin jelszót (Alapértelmezett: admin123):");
+        if (password === "admin123" || password === "admin") {
+          isAdmin = true;
+          adminToggleBtn.innerHTML = '<i class="fa-solid fa-unlock"></i> Admin Mód (Aktív)';
+          adminToggleBtn.style.borderColor = 'var(--red)';
+          adminToggleBtn.style.color = 'var(--red)';
+          adminBadgeNotice.style.display = 'block';
+          feedTitle.innerHTML = '<i class="fa-solid fa-user-shield"></i> Admin Panel - Összes Válasz';
+          showToast("Sikeres admin bejelentkezés!");
+          renderFeed();
+        } else if (password !== null) {
+          showToast("Hibás admin jelszó!");
+        }
+      } else {
+        isAdmin = false;
+        adminToggleBtn.innerHTML = '<i class="fa-solid fa-lock"></i> Admin Mód';
+        adminToggleBtn.style.borderColor = 'var(--border)';
+        adminToggleBtn.style.color = 'var(--text)';
+        adminBadgeNotice.style.display = 'none';
+        feedTitle.innerHTML = '<i class="fa-solid fa-comments"></i> Publikus Vélemények';
+        showToast("Kiléptél az Admin módból.");
+        renderFeed();
+      }
+    }
+
+    adminToggleBtn.addEventListener("click", toggleAdminMode);
+    document.getElementById("adminNavToggle").addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleAdminMode();
+    });
+
+    // Megosztás Gomb
+    document.getElementById("shareBtn").addEventListener("click", () => {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href);
+        showToast("Hivatkozás másolva a vágólapra!");
+      } else {
+        // Fallback execCommand
+        const dummy = document.createElement('input');
+        document.body.appendChild(dummy);
+        dummy.value = window.location.href;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        showToast("Hivatkozás másolva a vágólapra!");
+      }
+    });
+  </script>
+</body>
+</html>
